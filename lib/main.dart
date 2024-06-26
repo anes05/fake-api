@@ -1,22 +1,48 @@
-import 'package:fake_api/freezedPages/homePage/homePage.dart';
-import 'package:fake_api/freezedPages/newsPage/newsPage.dart';
+/*import 'package:fake_api/freezedPages/homePage/homePage.dart';
+import 'package:fake_api/freezedPages/newsPage/newsPage.dart';*/
+import 'package:fake_api/pages/freezedPages/newsPage/bloc/news_page_bloc.dart';
+import 'package:fake_api/pages/homePage/homePage.dart';
+import 'package:fake_api/pages/newsPage/bloc/newsPage_bloc.dart';
 import 'package:fake_api/repo/newsRepo.dart';
+import 'package:fake_api/routes/app_router.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(
+    MultiRepositoryProvider(
+      providers: [
+        RepositoryProvider<NewsRepository>(
+          create: (context) => NewsRepository(),
+        ),
+      ],
+      child: MultiBlocProvider(
+        providers: [
+          BlocProvider<NewsPageBloc>(
+            create: (context) => NewsPageBloc(
+              newsRepository: RepositoryProvider.of<NewsRepository>(context),
+            ),
+          ),
+          BlocProvider(create: (context)=> NewsBloc(RepositoryProvider.of<NewsRepository>(context))),
+        ],
+        child: MyApp(),
+      ),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
+
+
   const MyApp({super.key});
 
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    AppRouter appRouter= AppRouter();
     return ScreenUtilInit(
-      builder: (context, child) => MaterialApp(
+      builder: (context, child) => MaterialApp.router(
         debugShowCheckedModeBanner: false,
         title: 'Flutter Demo',
         theme: ThemeData(
@@ -26,9 +52,9 @@ class MyApp extends StatelessWidget {
           useMaterial3: true,
         ),
         //home: const MyHomePage(title: 'Fake News Home Page'),
-        home: const HomePage(),
-        routes: {"newsPage": (context) => const NewsPage()},
-      ),
+          routerConfig: appRouter.config(),
+      )
+        /*routes: {"newsPage": (context) => const NewsPage()},*/
     );
   }
 }

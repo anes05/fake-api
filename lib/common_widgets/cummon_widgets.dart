@@ -57,7 +57,7 @@ Widget pageBody(BuildContext context,String imagePath, String title,String subTi
       GestureDetector(
         onTap:func,
         child: Container(
-          margin: EdgeInsets.only(top:100.h,  left: 25.w, right: 25.w),
+          margin: EdgeInsets.only(top:60.h,  left: 25.w, right: 25.w),
           width: 325.w,
           height: 50.h,
           decoration: BoxDecoration(

@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:fake_api/common_widgets/appColors.dart';
 import 'package:fake_api/common_widgets/cummon_widgets.dart';
 import 'package:fake_api/models/newsModel.dart';
@@ -12,6 +13,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 //import 'package:fake_api/repo/newsRepo.dart'
+@RoutePage()
 class NewsPage extends StatelessWidget {
   const NewsPage({super.key});
 
